@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Optional, List
 from uuid import UUID
 from pydantic import BaseModel, ConfigDict, HttpUrl
-from api.db.models import UserRole
+from api.models import UserRole
 
 class OrganisationBase(BaseModel):
     name: str

@@ -1,5 +1,5 @@
-from .database import engine, SessionLocal
-from .models import (
+from ..core.database import engine, SessionLocal
+from ..models import (
     Base,
     User,
     Organisation,
