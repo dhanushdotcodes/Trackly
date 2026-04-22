@@ -1,0 +1,24 @@
+from datetime import datetime
+from typing import Optional, List
+from uuid import UUID
+from pydantic import BaseModel, ConfigDict, EmailStr
+
+class UserBase(BaseModel):
+    name: str
+    email: EmailStr
+    profile_image_url: Optional[str] = None
+
+class UserCreate(UserBase):
+    pass
+
+class UserUpdate(BaseModel):
+    name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    profile_image_url: Optional[str] = None
+
+class UserResponse(UserBase):
+    id: UUID
+    created_at: datetime
+    updated_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
