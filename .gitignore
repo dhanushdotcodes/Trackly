@@ -37,5 +37,3 @@ yarn-debug.log*
 yarn-error.log*
 bun.lockb
 uv.lock
-# (Wait, sometimes people commit locks, but I'll follow standard practice unless I see them in existing commits. The previous PRD had bun.lockb committed, so I'll remove it from ignore if I see it.)
-# Actually, I'll keep them out of ignore for now.
