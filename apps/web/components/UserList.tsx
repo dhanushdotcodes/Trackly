@@ -31,7 +31,7 @@ export function UserList({ users }: UserListProps) {
                 className="h-full w-full object-cover"
               />
             ) : (
-              <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600 text-xl font-bold text-white">
+              <div className="flex h-full w-full items-center justify-center bg-linear-to-br from-indigo-500 to-purple-600 text-xl font-bold text-white">
                 {user.name.charAt(0)}
               </div>
             )}

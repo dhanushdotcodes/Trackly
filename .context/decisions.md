@@ -24,3 +24,11 @@ PYTHONPATH=..:.:$PYTHONPATH DATABASE_URL=your_db_url uv run alembic current
 - `PYTHONPATH=..` allows `from api.models import Base` to work correctly.
 - `uv run` ensures the virtual environment managed by `uv` is used.
 - Running from `apps/api` ensures `alembic.ini` is found and `script_location` is correctly resolved.
+
+## 2026-04-23: While applying gradient 
+
+### What to not use 
+- bg-gradient-to-br
+
+### What to use instead
+- bg-linear-to-br
