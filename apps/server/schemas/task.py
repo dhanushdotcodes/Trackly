@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Optional, List
 from uuid import UUID
 from pydantic import BaseModel, ConfigDict
-from api.models import TaskStatus, TaskPriority
+from server.models import TaskStatus, TaskPriority
 
 class TaskCategoryBase(BaseModel):
     name: str

@@ -5,8 +5,12 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from api.models import Base
-from api.core.config import get_settings
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from server.models import Base
+from server.core.config import get_settings
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

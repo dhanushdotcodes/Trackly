@@ -15,6 +15,7 @@ FastAPI Best Practices:
 - Use dependency injection for common logic
 - Implement proper CORS configuration
 - Use APIRouter for modular routing
+- All in house packages import should be server.packagename.filename not .filename
 
 Database:
 - Use SQLAlchemy
