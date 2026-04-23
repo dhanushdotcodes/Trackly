@@ -82,8 +82,7 @@ app.include_router(users.router)
 ### Structure
 
 ```
-src/
-├── app/
+app/
 ├── components/
 ├── hooks/
 ├── lib/
