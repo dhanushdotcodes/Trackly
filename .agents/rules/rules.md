@@ -61,6 +61,14 @@ trigger: always_on
 * All in-house package imports MUST use the full path (e.g., `server.packagename.filename`), not relative imports (e.g., `.filename`).
 * Dependencies MUST use the `get_` prefix.
 
+### Build & Verify Commands
+* Build: `uv sync`
+* Test (single): `uv run pytest <file_path>`
+* Lint / typecheck: `uv run ruff check`
+* Dev server: `uv run fastapi dev`
+
+Always run the lint/typecheck command after a series of edits. Prefer running a single targeted test over the full suite for speed.
+
 ## Next.js / Frontend Development
 
 * Next.js App Router MUST be used exclusively.
@@ -80,18 +88,26 @@ trigger: always_on
 * Use memoization ONLY where it clearly reduces unnecessary work.
 * NEVER use `bg-gradient-to-br` for gradients; ALWAYS use `bg-linear-to-br` (Tailwind v4).
 
+### Build & Verify Commands
+* Build: `bun run build`
+* Test (single): `bun test <file_path>`
+* Lint / typecheck: `bun run lint && bun x tsc --noEmit`
+* Dev server: `bun run dev`
+
+Always run the lint/typecheck command after a series of edits. Prefer running a single targeted test over the full suite for speed.
+
 ## Database & Migrations
 
 * SQLAlchemy 2.0+ (Declarative Mapping) MUST be used for ORM.
 * Alembic MUST be used for all database migrations.
 * Database operations MUST be asynchronous.
-* ALL models MUST inherit from `api.models.base.Base`.
-* ALL models MUST be imported in `apps/api/models/__init__.py` to be recognized by Alembic.
+* ALL models MUST inherit from `server.models.base.Base`.
+* ALL models MUST be imported in `apps/server/models/__init__.py` to be recognized by Alembic.
 * Service methods MUST use `async with session.begin():` for atomic operations.
 * NEVER call `.commit()` manually inside a service method.
 * ALWAYS prefer SQLAlchemy 2.0 style queries (using `select()`, `execute()`) over the legacy `Query` API.
 * NEVER perform destructive database actions without explicit confirmation.
-* Alembic commands MUST be run from the `apps/api` directory using `PYTHONPATH=..:.:$PYTHONPATH uv run alembic`.
+* Alembic commands MUST be run from the `apps/server` directory using `PYTHONPATH=..:.:$PYTHONPATH uv run alembic`.
 
 ## Code Quality & Testing
 
@@ -102,8 +118,16 @@ trigger: always_on
 * ALWAYS prefer early returns over deep nesting.
 * Comments MUST explain WHY, not WHAT; avoid obvious comments.
 * ALL functions MUST have docstrings.
-* New business logic and bug fixes SHOULD include automated tests.
 * ALWAYS reuse existing utilities and patterns before creating new abstractions.
+
+### Testing
+* Match the existing test strategy; do not introduce new frameworks without discussion.
+* Do not add tests unless the task explicitly requires them.
+* Prefer integration or end-to-end tests over unit tests.
+* Avoid mocks when real service calls are practical.
+* Unit tests are acceptable for pure data-transformation functions only.
+* Never add tests to increase coverage numbers.
+* New business logic and bug fixes SHOULD include automated tests if required by the task.
 
 ## TypeScript Safety
 
@@ -115,6 +139,16 @@ trigger: always_on
 * NEVER throw strings; ALWAYS throw `Error` objects.
 * Use exhaustiveness checks in all `switch` statements.
 
+## Error Handling
+
+* Raise errors explicitly at the point of failure; never swallow exceptions silently.
+* Use specific error types; avoid generic catch-alls that hide root causes.
+* Fix root causes, not symptoms; no workaround shims unless the root fix is out of scope.
+* No fallbacks or degraded-mode logic unless explicitly requested.
+* External service calls: retry with exponential backoff, log each retry as a warning, re-raise the last error.
+* Error messages must include: request params, response body, status codes, correlation IDs.
+* Use structured logging fields — do not interpolate dynamic values into message strings.
+
 ## Security & Authentication
 
 * NEVER expose secrets, tokens, or connection strings in the codebase.
@@ -122,6 +156,22 @@ trigger: always_on
 * Password hashing MUST use `bcrypt`.
 * ALL inputs MUST be validated and sanitized.
 * The principle of least privilege MUST be followed.
+
+Security — NEVER
+
+* Commit secrets, API keys, tokens, passwords, or .env files.
+* Force-push to main, master, or any protected branch.
+* Add new external dependencies without asking first.
+* Log or print PII, credentials, or tokens.
+* Build SQL queries or shell commands via string concatenation.
+
+Security — ASK FIRST
+
+* Adding any new external dependency.
+* Running database migrations.
+* Deleting or renaming files.
+* Modifying CI/CD configs or deployment definitions.
+* Touching authentication or authorization logic.
 
 ## Git & Version Control
 
