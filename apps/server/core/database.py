@@ -5,7 +5,11 @@ from .config import get_settings
 settings = get_settings()
 
 # Create async engine
+if settings.DATABASE_URL is None:
+    raise ValueError("DATABASE_URL is not set in environment variables")
+
 engine = create_async_engine(settings.DATABASE_URL)
+
 
 # Create async session factory
 AsyncSessionLocal = async_sessionmaker(

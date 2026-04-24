@@ -19,7 +19,11 @@ config = context.config
 settings = get_settings()
 
 # Set the database URL for Alembic
+if settings.DATABASE_URL is None:
+    raise ValueError("DATABASE_URL is not set in environment variables")
+
 config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
+
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
