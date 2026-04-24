@@ -25,6 +25,18 @@ PYTHONPATH=..:.:$PYTHONPATH DATABASE_URL=your_db_url uv run alembic current
 - `uv run` ensures the virtual environment managed by `uv` is used.
 - Running from `apps/api` ensures `alembic.ini` is found and `script_location` is correctly resolved.
 
+## 2026-04-24: Production Containerization & Migrations
+
+### Decision
+- We use **Multi-stage Dockerfiles** for both Server and Web applications to support dev/prod parity.
+- **Local Development**: Uses `prestart.sh` to automate Alembic migrations on every container start for developer velocity.
+- **Production Environment**: The database is migrated **manually** (external to the container startup) before deployment.
+- **Communication**: In production, the application containers rely strictly on the `DATABASE_URL` and `INTERNAL_API_URL` environment variables provided by the orchestrator.
+
+### Rationale
+- Avoids race conditions and "destructive" automated actions in production as per project security rules.
+- Ensures that database schema changes are vetted and applied by engineers before application code is scaled up.
+
 ## 2026-04-23: While applying gradient 
 
 ### What to not use 

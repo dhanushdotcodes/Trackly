@@ -1,14 +1,15 @@
 DOCKER_COMPOSE := docker-compose -f infra/docker-compose.yaml
 
-.PHONY: help docker-up docker-down docker-build server-dev web-up
+.PHONY: help docker-up docker-down docker-clean docker-build server-dev web-up server-typecheck server-lint server-fix web-lint web-typecheck
 
 help:
 	@echo "Available commands:"
-	@echo "  make docker-up   - Start infrastructure"
-	@echo "  make docker-down - Stop infrastructure"
-	@echo "  make docker-build- Rebuild infrastructure"
-	@echo "  make server-dev  - Start FastAPI server in dev mode"
-	@echo "  make web-up     - Start Next.js web app in dev mode"
+	@echo "  make docker-up    - Start infrastructure"
+	@echo "  make docker-down  - Stop infrastructure"
+	@echo "  make docker-clean - Remove everything (volumes, images, orphans)"
+	@echo "  make docker-build - Rebuild infrastructure"
+	@echo "  make server-dev   - Start FastAPI server in dev mode"
+	@echo "  make web-up      - Start Next.js web app in dev mode"
 	@echo "  make server-typecheck - Type check FastAPI server"
 	@echo "  make server-lint    - Lint FastAPI server"
 	@echo "  make server-fix     - Fix FastAPI server"
@@ -21,6 +22,9 @@ docker-up:
 
 docker-down:
 	$(DOCKER_COMPOSE) down
+
+docker-clean:
+	$(DOCKER_COMPOSE) down -v --rmi all --remove-orphans
 
 docker-build:
 	$(DOCKER_COMPOSE) build

@@ -11,5 +11,34 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  server:
+    build:
+      context: ../apps/server
+      target: development
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../apps/server:/app/server
+    environment:
+      - DATABASE_URL=postgresql+psycopg://postgres:password@db:5432/postgres
+    depends_on:
+      - db
+
+  web:
+    build:
+      context: ../apps/web
+      target: development
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../apps/web:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/.next
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+      - INTERNAL_API_URL=http://server:8000/api/v1
+    depends_on:
+      - server
+
 volumes:
   postgres_data:

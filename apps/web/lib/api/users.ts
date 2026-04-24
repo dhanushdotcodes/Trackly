@@ -1,6 +1,9 @@
 import { User } from "../../types/user";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
+// Use internal service name when fetching on the server (Docker), and public URL on the client
+const API_URL = (typeof window === "undefined")
+  ? (process.env.INTERNAL_API_URL || "http://server:8000/api/v1")
+  : (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1");
 
 /**
  * Fetches all users from the backend API.
