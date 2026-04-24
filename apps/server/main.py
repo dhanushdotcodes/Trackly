@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from sqlalchemy import text
 from .core.database import engine
 from .api.v1 import users
+from .api.v1 import health
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -20,6 +21,7 @@ app = FastAPI(
 
 # Include routers
 app.include_router(users.router, prefix="/api/v1")
+app.include_router(health.router, prefix="/api/v1")
 
 @app.get("/")
 def main():
