@@ -9,6 +9,12 @@ help:
 	@echo "  make docker-build- Rebuild infrastructure"
 	@echo "  make server-dev  - Start FastAPI server in dev mode"
 	@echo "  make web-up     - Start Next.js web app in dev mode"
+	@echo "  make server-typecheck - Type check FastAPI server"
+	@echo "  make server-lint    - Lint FastAPI server"
+	@echo "  make server-fix     - Fix FastAPI server"
+	@echo "  make web-lint       - Lint Next.js web app"
+	@echo "  make web-typecheck  - Type check Next.js web app"
+
 
 docker-up:
 	$(DOCKER_COMPOSE) up -d
@@ -24,3 +30,18 @@ server-dev:
 
 web-dev:
 	cd apps/web && bun run dev
+
+server-typecheck:
+	cd apps/server && uv run mypy .
+
+server-lint:
+	cd apps/server && uv run ruff check .
+
+server-fix:
+	cd apps/server && uv run ruff check --fix .
+
+web-lint:
+	cd apps/web && bun run lint
+
+web-typecheck:
+	cd apps/web && bun run typecheck
