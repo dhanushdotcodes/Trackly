@@ -1,9 +1,9 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from sqlalchemy import text
-from .core.database import engine
-from .api.v1 import users
-from .api.v1 import health
+from server.core.database import engine
+from server.api.v1 import users
+from server.api.v1 import health
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):

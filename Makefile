@@ -44,6 +44,9 @@ server-lint:
 server-fix:
 	cd apps/server && uv run ruff check --fix .
 
+server-test:
+	cd apps/server && PYTHONPATH=.. uv run pytest tests/
+
 web-lint:
 	cd apps/web && bun run lint
 
