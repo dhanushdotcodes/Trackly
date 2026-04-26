@@ -123,11 +123,12 @@ Always run the lint/typecheck command after a series of edits. Prefer running a 
 ### Testing
 * Match the existing test strategy; do not introduce new frameworks without discussion.
 * Do not add tests unless the task explicitly requires them.
-* Prefer integration or end-to-end tests over unit tests.
-* Avoid mocks when real service calls are practical.
-* Unit tests are acceptable for pure data-transformation functions only.
-* Never add tests to increase coverage numbers.
-* New business logic and bug fixes SHOULD include automated tests if required by the task.
+* ALWAYS prefer integration or end-to-end tests over unit tests.
+* NEVER use mocks for database or service calls unless it's impossible to use a real connection.
+* Unit tests are acceptable for pure data-transformation functions ONLY.
+* New business logic and bug fixes SHOULD include automated tests that exercise the full stack (API -> Service -> DB).
+* All tests MUST be run with a real database connection.
+
 
 ## TypeScript Safety
 
