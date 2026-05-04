@@ -174,12 +174,77 @@ Security — ASK FIRST
 * Modifying CI/CD configs or deployment definitions.
 * Touching authentication or authorization logic.
 
-## Git & Version Control
 
-* Conventional commits (e.g., `feat:`, `fix:`, `docs:`) MUST be used.
-* PRs SHOULD be kept under 400 lines of diff.
-* Git diffs MUST be focused and reviewable.
-* Conventional commits: type(scope): description Valid types: feat fix refactor test chore docs
-* Atomic commits — one logical change per commit.
-* Branch naming: type/short-description.
-* Non-interactive diff always: git --no-pager diff or git diff | cat.
+## Git & Workflow
+
+- All commits MUST follow Conventional Commits format:
+  
+  `<type>(<scope>): <short description>`
+
+- Always update `faker.js/CHANGELOG.md` immediately after you commit to track changes.
+
+---
+
+### 1. Types
+
+- feat     → New feature
+- fix      → Bug fix
+- refactor → Code change without behavior change
+- test     → Adding or updating tests
+- docs     → Documentation changes
+- chore    → Maintenance (configs, deps)
+
+---
+
+### 2. Scope (MANDATORY)
+
+Scope must reflect the layer or module:
+
+- prisma
+- api
+- controllers
+- services
+
+Examples:
+- feat(auth): add login endpoint
+- fix(users): handle null email edge case
+- refactor(services): extract payment logic
+
+---
+
+### 3. Description Rules
+
+- Max 72 characters
+- Use present tense
+- No vague words like "stuff", "changes", "update"
+
+---
+
+### 4. Good Examples
+
+feat(users): add user registration service  
+fix(auth): handle invalid JWT token error  
+refactor(orders): move pricing logic to service  
+test(users): add unit tests for user service  
+
+---
+
+### 5. Bad Examples (DO NOT DO)
+
+fix: bug  
+feat: changes  
+update code  
+misc fixes  
+
+---
+
+### 6. Commit Size
+
+- Keep commits small and focused (<50 LOC preferred)
+- One logical change per commit
+
+
+## Environment Variables
+- **Storage**: Store environment variables in `.env`.
+- **Syncing Template**: You must update `_env.local` when you add or remove any variable in `.env`.
+- **Access**: Access environment variables only through the centralized config, Direct use of .env is strictly prohibited.
