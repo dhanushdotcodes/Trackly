@@ -19,7 +19,7 @@ Do NOT use when:
 
 ---
 
-## Context Assumptions
+## Input
 - Stack: FastAPI, Python, Pydantic, pytest, SQLAlchemy.
 - Architecture: API -> service -> real DB.
 - Validation: Pydantic models.
