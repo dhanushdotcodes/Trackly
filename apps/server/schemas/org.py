@@ -41,3 +41,20 @@ class DeptMembershipResponse(BaseModel):
     joined_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
+
+class OrgInviteBase(BaseModel):
+    email: str
+    role: OrgRole = OrgRole.MEMBER
+
+class OrgInviteCreate(OrgInviteBase):
+    org_id: UUID
+    token: str
+    expires_at: datetime
+
+class OrgInviteResponse(OrgInviteBase):
+    id: UUID
+    org_id: UUID
+    expires_at: datetime
+    created_at: datetime
+    
+    model_config = ConfigDict(from_attributes=True)

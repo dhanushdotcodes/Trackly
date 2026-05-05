@@ -16,6 +16,7 @@ class TaskCategory(Base):
 
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
     org_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("organisations.id"), nullable=False)
+    department_id: Mapped[Optional[uuid.UUID]] = mapped_column(ForeignKey("departments.id"), nullable=True)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     color: Mapped[Optional[str]] = mapped_column(String(50), nullable=True)
     
@@ -24,6 +25,7 @@ class TaskCategory(Base):
 
     # Relationships
     organisation: Mapped["Organisation"] = relationship("Organisation", back_populates="categories")
+    department: Mapped[Optional["Department"]] = relationship("Department")
     tasks: Mapped[List["Task"]] = relationship("Task", back_populates="category")
 
 class Task(Base):

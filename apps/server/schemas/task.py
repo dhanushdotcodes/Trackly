@@ -7,6 +7,7 @@ from server.models import TaskStatus, TaskPriority
 class TaskCategoryBase(BaseModel):
     name: str
     color: Optional[str] = None
+    department_id: Optional[UUID] = None
 
 class TaskCategoryResponse(TaskCategoryBase):
     id: UUID

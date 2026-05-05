@@ -1,8 +1,8 @@
-"""Initial migration
+"""Initial schema
 
-Revision ID: 56d2acddd2c7
+Revision ID: fd83861eac01
 Revises: 
-Create Date: 2026-04-22 19:31:37.252669
+Create Date: 2026-05-05 17:56:18.426182
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '56d2acddd2c7'
+revision: str = 'fd83861eac01'
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -34,7 +34,9 @@ def upgrade() -> None:
     sa.Column('id', sa.Uuid(), nullable=False),
     sa.Column('name', sa.String(length=255), nullable=False),
     sa.Column('email', sa.String(length=255), nullable=False),
+    sa.Column('password', sa.String(length=255), nullable=False),
     sa.Column('profile_image_url', sa.Text(), nullable=True),
+    sa.Column('is_verified', sa.Boolean(), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
     sa.PrimaryKeyConstraint('id')
@@ -52,29 +54,54 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('org_id', 'name', name='uq_org_dept_name')
     )
-    op.create_table('task_categories',
+    op.create_table('org_invites',
     sa.Column('id', sa.Uuid(), nullable=False),
     sa.Column('org_id', sa.Uuid(), nullable=False),
-    sa.Column('name', sa.String(length=255), nullable=False),
-    sa.Column('color', sa.String(length=50), nullable=True),
+    sa.Column('email', sa.String(length=255), nullable=False),
+    sa.Column('role', sa.Enum('OWNER', 'ADMIN', 'MEMBER', name='orgrole'), nullable=False),
+    sa.Column('token', sa.String(length=255), nullable=False),
+    sa.Column('expires_at', sa.DateTime(), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
     sa.ForeignKeyConstraint(['org_id'], ['organisations.id'], ),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('org_id', 'name', name='uq_org_category_name')
+    sa.UniqueConstraint('org_id', 'email', name='uq_org_invite_email'),
+    sa.UniqueConstraint('token')
     )
     op.create_table('org_memberships',
     sa.Column('id', sa.Uuid(), nullable=False),
     sa.Column('user_id', sa.Uuid(), nullable=False),
     sa.Column('org_id', sa.Uuid(), nullable=False),
-    sa.Column('department_id', sa.Uuid(), nullable=True),
-    sa.Column('role', sa.Enum('OWNER', 'ADMIN', 'MEMBER', 'VIEWER', name='userrole'), nullable=False),
+    sa.Column('role', sa.Enum('OWNER', 'ADMIN', 'MEMBER', name='orgrole'), nullable=False),
     sa.Column('joined_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
-    sa.ForeignKeyConstraint(['department_id'], ['departments.id'], ),
     sa.ForeignKeyConstraint(['org_id'], ['organisations.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('user_id', 'org_id', name='uq_user_org')
+    )
+    op.create_table('dept_memberships',
+    sa.Column('id', sa.Uuid(), nullable=False),
+    sa.Column('user_id', sa.Uuid(), nullable=False),
+    sa.Column('department_id', sa.Uuid(), nullable=False),
+    sa.Column('role', sa.Enum('MANAGER', 'MEMBER', 'VIEWER', name='deptrole'), nullable=False),
+    sa.Column('joined_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
+    sa.ForeignKeyConstraint(['department_id'], ['departments.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('user_id', 'department_id', name='uq_user_dept')
+    )
+    op.create_table('task_categories',
+    sa.Column('id', sa.Uuid(), nullable=False),
+    sa.Column('org_id', sa.Uuid(), nullable=False),
+    sa.Column('department_id', sa.Uuid(), nullable=True),
+    sa.Column('name', sa.String(length=255), nullable=False),
+    sa.Column('color', sa.String(length=50), nullable=True),
+    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
+    sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
+    sa.ForeignKeyConstraint(['department_id'], ['departments.id'], ),
+    sa.ForeignKeyConstraint(['org_id'], ['organisations.id'], ),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('org_id', 'name', name='uq_org_category_name')
     )
     op.create_table('tasks',
     sa.Column('id', sa.Uuid(), nullable=False),
@@ -129,8 +156,10 @@ def downgrade() -> None:
     op.drop_table('task_comments')
     op.drop_table('task_assignees')
     op.drop_table('tasks')
-    op.drop_table('org_memberships')
     op.drop_table('task_categories')
+    op.drop_table('dept_memberships')
+    op.drop_table('org_memberships')
+    op.drop_table('org_invites')
     op.drop_table('departments')
     op.drop_index(op.f('ix_users_email'), table_name='users')
     op.drop_table('users')

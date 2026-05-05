@@ -47,6 +47,19 @@ dept_memberships
 | role | enum | `'Manager', 'Member', 'Viewer'` | Role of the user in the department |
 | joined_at | timestamp | | Timestamp when the user joined the department |
 
+org_invites
+
+| Column | Type | Notes | Description |
+| :--- | :--- | :--- | :--- |
+| id | uuid | PK | Unique identifier for the invite |
+| org_id | uuid | FK (`organisations.id`) | Reference to the organisation |
+| email | varchar(255) | Unique per org | Email address of the invitee |
+| role | enum | `'Owner', 'Admin', 'Member'` | Role of the user in the organisation |
+| token | varchar(255) | Unique | Secure token for invite link |
+| expires_at | timestamp | | Expiry timestamp for the invite |
+| created_at | timestamp | | Record creation timestamp |
+| updated_at | timestamp | | Last update timestamp |
+
 departments
 
 | Column | Type | Notes | Description |
@@ -64,6 +77,7 @@ task_categories
 | :--- | :--- | :--- | :--- |
 | id | uuid | PK | Unique identifier for the task category |
 | org_id | uuid | FK (`organisations.id`) | Reference to the organisation |
+| department_id | uuid | FK (`departments.id`) | Reference to the department (optional) |
 | name | varchar(255) | | Name of the category |
 | color | varchar(50) | | Hex color code for the category |
 | created_at | timestamp | | Record creation timestamp |

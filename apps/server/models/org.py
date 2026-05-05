@@ -2,6 +2,7 @@ import uuid
 from datetime import datetime
 from typing import List, Optional, TYPE_CHECKING
 from sqlalchemy import String, DateTime, Text, ForeignKey, func, Enum, UniqueConstraint
+from sqlalchemy.dialects import postgresql
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base, OrgRole, DeptRole
@@ -74,3 +75,20 @@ class Department(Base):
     sub_departments: Mapped[List["Department"]] = relationship("Department", back_populates="parent")
     members: Mapped[List["DeptMembership"]] = relationship("DeptMembership", back_populates="department")
     tasks: Mapped[List["Task"]] = relationship("Task", back_populates="department")
+
+class OrgInvite(Base):
+    __tablename__ = "org_invites"
+    __table_args__ = (UniqueConstraint("org_id", "email", name="uq_org_invite_email"),)
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    org_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("organisations.id"), nullable=False)
+    email: Mapped[str] = mapped_column(String(255), nullable=False)
+    role: Mapped[OrgRole] = mapped_column(Enum(OrgRole), default=OrgRole.MEMBER, nullable=False)
+    token: Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
+    expires_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now(), onupdate=func.now())
+
+    # Relationships
+    organisation: Mapped["Organisation"] = relationship("Organisation")
