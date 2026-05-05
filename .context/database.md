@@ -108,3 +108,4 @@ The `apps/api/alembic/env.py` is configured to import `Base` from `api.models`. 
 2. **Prefer SQLAlchemy 2.0 style queries** (using `select()`, `execute()`, etc.) over the legacy `Query` API.
 3. **Check `api.models.base`** for existing Enums (`UserRole`, `TaskStatus`, `TaskPriority`) before creating new ones.
 4. **When generating migrations**, ensure you are in the `apps/api` directory and have the `PYTHONPATH` set as shown above.
+5. **Always update `docs/DB_SCHEMA.md` and this file (`.context/database.md`)** when making changes to the database models to keep documentation in sync.

@@ -63,6 +63,9 @@ Do NOT use when:
    - Do not drop tables or clear data unless explicitly requested by the user.
    - When altering columns, handle potential data migrations if needed.
 
+6. **Update Documentation**
+   - Whenever you add, modify, or remove models or columns, you MUST update `docs/DB_SCHEMA.md` and `.context/database.md` to reflect these changes.
+
 ---
 
 ## Output Format
@@ -81,3 +84,4 @@ Do NOT use when:
 - [ ] No manual `.commit()` calls exist in service methods.
 - [ ] Alembic migration has been successfully generated and reviewed.
 - [ ] `uv run alembic upgrade head` has been run and validated.
+- [ ] Database documentation (`docs/DB_SCHEMA.md` and `.context/database.md`) has been updated to reflect the schema changes.

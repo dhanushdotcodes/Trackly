@@ -15,6 +15,7 @@ trigger: always_on
 * ALWAYS prioritize patterns defined in `.antigravity/` files over local file patterns.
 * NEVER trust AI-generated code blindly; all output MUST be reviewed manually.
 * ALWAYS act like a senior engineer: challenge bad decisions, suggest simpler alternatives, and explain trade-offs.
+* ALWAYS show the difference between the previous and current state when making changes to `.agents/rules/rules.md` or any file in `.agents/workflows/`. You MUST explicitly mention the section under which the change was made and show the change as a code (from and to) where the change happened for both the previous version and the current version in your response so user can read it.
 
 ## Architecture & Structure
 
@@ -181,7 +182,7 @@ Security — ASK FIRST
   
   `<type>(<scope>): <short description>`
 
-- Always update `faker.js/CHANGELOG.md` immediately after you commit to track changes.
+- Always update the project's `CHANGELOG.md` on a daily basis (or immediately after significant commits) to track changes.
 
 ---
 

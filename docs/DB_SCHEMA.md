@@ -10,7 +10,9 @@ users
 | id | uuid | PK | Unique identifier for the user |
 | name | varchar(255) | | Full name of the user |
 | email | varchar(255) | Unique, Index | Email address used for identification |
+| password | varchar(255) | | Hashed password for authentication |
 | profile_image_url | text | | URL to the user's profile picture |
+| is_verified | boolean | | Indicates if the user is verified via email |
 | created_at | timestamp | | Record creation timestamp |
 | updated_at | timestamp | | Last update timestamp |
 

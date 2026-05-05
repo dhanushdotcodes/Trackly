@@ -9,15 +9,18 @@ class UserBase(BaseModel):
     profile_image_url: Optional[str] = None
 
 class UserCreate(UserBase):
-    pass
+    password: str
 
 class UserUpdate(BaseModel):
     name: Optional[str] = None
     email: Optional[EmailStr] = None
     profile_image_url: Optional[str] = None
+    password: Optional[str] = None
+    is_verified: Optional[bool] = None
 
 class UserResponse(UserBase):
     id: UUID
+    is_verified: bool
     created_at: datetime
     updated_at: datetime
 
