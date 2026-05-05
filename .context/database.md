@@ -62,7 +62,8 @@ For Alembic's `autogenerate` feature to work, every model file must be imported 
 **Current Models:**
 - `User`: User accounts and authentication.
 - `Organisation`: Tenant entities.
-- `OrgMembership`: Junction table for Users and Organisations (Roles).
+- `OrgMembership`: Junction table for Users and Organisations (Org Roles).
+- `DeptMembership`: Junction table for Users and Departments (Dept Roles).
 - `Department`: Groups within an Organisation.
 - `Task`: Core task entity.
 - `TaskCategory`, `TaskAssignee`, `TaskComment`: Task-related metadata and relationships.
@@ -106,6 +107,6 @@ The `apps/api/alembic/env.py` is configured to import `Base` from `api.models`. 
 ## 💡 Best Practices for AI Tools
 1. **Always check `apps/api/models/__init__.py`** when adding or modifying models to ensure they are exported correctly.
 2. **Prefer SQLAlchemy 2.0 style queries** (using `select()`, `execute()`, etc.) over the legacy `Query` API.
-3. **Check `api.models.base`** for existing Enums (`UserRole`, `TaskStatus`, `TaskPriority`) before creating new ones.
+3. **Check `api.models.base`** for existing Enums (`OrgRole`, `DeptRole`, `TaskStatus`, `TaskPriority`) before creating new ones.
 4. **When generating migrations**, ensure you are in the `apps/api` directory and have the `PYTHONPATH` set as shown above.
 5. **Always update `docs/DB_SCHEMA.md` and this file (`.context/database.md`)** when making changes to the database models to keep documentation in sync.

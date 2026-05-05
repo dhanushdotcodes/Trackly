@@ -6,16 +6,16 @@ Trackly is a multi-tenant task management application designed for professional 
 
 ## Core Modules
 - **Authentication**: User signup, login, logout, password reset, email verification.
-- **Authorization**: Role-based access control (Owner, Admin, Member and Viewer).
+- **Authorization**: Role-based access control with Org roles (Owner, Admin, Member) and Department roles (Manager, Member, Viewer).
 - **Organisation Management**: Create, invite members, update organisation info, update member roles, remove members, delete organisation. 
-  - Owner can delete organisation. Admin can remove members and update member roles. Member and Viewer cannot delete or update organisation info or members or roles. Viewer can only view the organisation info.
+  - Owner can delete organisation. Admin can remove members and update member roles. Member cannot delete or update organisation info or members or roles.
   - Owner can transfer ownership from one person to another person and demote himself to admin.
 - **Department Management**: 
   - Create, update, delete departments.
   - Add members to departments, update member roles in departments, remove members from departments.
-    - Owner can delete department, add, update department and sub department info, add, remove members, update member roles in departments.
-    - Admin can add, update department and sub department info, add, remove members, update member roles in departments.
-    - Member and Viewer can only view the department info.
+    - Org Owner, Org Admin, or Dept Manager can delete department, add, update department and sub department info, add, remove members, update member roles in departments.
+    - Dept Member can work on tasks within the department.
+    - Dept Viewer can only view the department info and tasks.
 - **Task Management**: 
   - Create, update, delete, list tasks.
   - Add Sub tasks.
@@ -31,7 +31,7 @@ Trackly is a multi-tenant task management application designed for professional 
 ## Core Entities
 - **Organisations**: The top-level tenant.
 - **Departments**: Sub-units within an organisation and it can have sub departments (e.g., Engineering, Marketing).
-- **Users**: Users who belong to organisations and departments with specific roles (i.e a Owner or Admin or Member or Viewer).
+- **Users**: Users who belong to organisations (OrgRole) and departments (DeptRole) with specific roles.
 - **Tasks**: The primary unit of work, featuring statuses, priorities, and assignments with comments as a way of communicating.
 - **Categories**: A way to organise tasks. A organisation can have custom categories that they choose or accept the default system categories.
 

@@ -7,7 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from .base import Base
 
 if TYPE_CHECKING:
-    from .org import OrgMembership
+    from .org import OrgMembership, DeptMembership
     from .task import Task
 
 class User(Base):
@@ -23,5 +23,6 @@ class User(Base):
     updated_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now(), onupdate=func.now())
 
     # Relationships
-    memberships: Mapped[List["OrgMembership"]] = relationship("OrgMembership", back_populates="user")
+    org_memberships: Mapped[List["OrgMembership"]] = relationship("OrgMembership", back_populates="user")
+    dept_memberships: Mapped[List["DeptMembership"]] = relationship("DeptMembership", back_populates="user")
     assigned_tasks: Mapped[List["Task"]] = relationship("Task", secondary="task_assignees", back_populates="assignees")

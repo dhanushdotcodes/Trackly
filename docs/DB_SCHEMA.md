@@ -34,9 +34,18 @@ org_memberships
 | id | uuid | PK | Unique identifier for the membership |
 | user_id | uuid | FK (`users.id`) | Reference to the user |
 | org_id | uuid | FK (`organisations.id`) | Reference to the organisation |
-| department_id | uuid | FK (`departments.id`) | Reference to the department (optional) |
-| role | enum | `'Owner', 'Admin', 'Member', 'Viewer'` | Role of the user in the organisation |
+| role | enum | `'Owner', 'Admin', 'Member'` | Role of the user in the organisation |
 | joined_at | timestamp | | Timestamp when the user joined the organisation |
+
+dept_memberships
+
+| Column | Type | Notes | Description |
+| :--- | :--- | :--- | :--- |
+| id | uuid | PK | Unique identifier for the membership |
+| user_id | uuid | FK (`users.id`) | Reference to the user |
+| department_id | uuid | FK (`departments.id`) | Reference to the department |
+| role | enum | `'Manager', 'Member', 'Viewer'` | Role of the user in the department |
+| joined_at | timestamp | | Timestamp when the user joined the department |
 
 departments
 

@@ -4,9 +4,13 @@ from sqlalchemy.orm import DeclarativeBase
 class Base(DeclarativeBase):
     pass
 
-class UserRole(str, enum.Enum):
+class OrgRole(str, enum.Enum):
     OWNER = "Owner"
     ADMIN = "Admin"
+    MEMBER = "Member"
+
+class DeptRole(str, enum.Enum):
+    MANAGER = "Manager"
     MEMBER = "Member"
     VIEWER = "Viewer"
 

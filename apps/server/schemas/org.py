@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Optional
 from uuid import UUID
 from pydantic import BaseModel, ConfigDict
-from server.models import UserRole
+from server.models import OrgRole, DeptRole
 
 class OrganisationBase(BaseModel):
     name: str
@@ -28,8 +28,16 @@ class OrgMembershipResponse(BaseModel):
     id: UUID
     user_id: UUID
     org_id: UUID
-    department_id: Optional[UUID] = None
-    role: UserRole
+    role: OrgRole
+    joined_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+class DeptMembershipResponse(BaseModel):
+    id: UUID
+    user_id: UUID
+    department_id: UUID
+    role: DeptRole
     joined_at: datetime
 
     model_config = ConfigDict(from_attributes=True)

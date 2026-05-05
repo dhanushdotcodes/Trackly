@@ -21,7 +21,7 @@ Do NOT use when:
 ## Input
 - Specific details on the required database schema (columns, types, relationships).
 - `apps/api/models/*.py` files if working with existing tables.
-- Migration history in `apps/api/alembic/versions/` to avoid conflicts.
+- Migration history in `apps/server/alembic/versions/` to avoid conflicts.
 
 ---
 
@@ -48,16 +48,16 @@ Do NOT use when:
    - Ensure you are in the `apps/api` directory before running Alembic.
    - To generate a new migration after updating models:
      ```bash
-     cd apps/api
+     cd apps/server
      PYTHONPATH=..:.:$PYTHONPATH uv run alembic revision --autogenerate -m "description_of_changes"
      ```
    - Review the generated script inside `alembic/versions/` to ensure accuracy.
    - Apply migrations to the database:
      ```bash
-     cd apps/api
+     cd apps/server
      PYTHONPATH=..:.:$PYTHONPATH uv run alembic upgrade head
      ```
-   - Do NOT modify or delete existing historical migration files unless explicitly instructed.
+   - **CRITICAL**: Strictly DO NOT manually update ANY files in `apps/server/alembic/versions/` (neither historical nor newly generated). Only follow the traditional way of updating the DB schema: update SQLAlchemy models, create migrations with Alembic, and apply them to the head.
 
 5. **Ensure Data Safety**
    - Do not drop tables or clear data unless explicitly requested by the user.
@@ -68,10 +68,39 @@ Do NOT use when:
 
 ---
 
+## Most used commands
+
+- **Generate a new migration (Autogenerate)**: Compares the current models to the database and generates a migration script.
+  ```bash
+  PYTHONPATH=..:.:$PYTHONPATH uv run alembic revision --autogenerate -m "description_of_changes"
+  ```
+- **Apply migrations**: Applies all pending migrations up to the latest head.
+  ```bash
+  PYTHONPATH=..:.:$PYTHONPATH uv run alembic upgrade head
+  ```
+- **Check for sync (Compare)**: Checks if the current local SQLAlchemy models perfectly match the database schema without generating a migration.
+  ```bash
+  PYTHONPATH=..:.:$PYTHONPATH uv run alembic check
+  ```
+- **Show current database revision**: Shows the migration revision currently applied to the database.
+  ```bash
+  PYTHONPATH=..:.:$PYTHONPATH uv run alembic current
+  ```
+- **Downgrade last migration**: Reverts the last applied migration.
+  ```bash
+  PYTHONPATH=..:.:$PYTHONPATH uv run alembic downgrade -1
+  ```
+- **Show migration history**: Lists all migrations in order.
+  ```bash
+  PYTHONPATH=..:.:$PYTHONPATH uv run alembic history --verbose
+  ```
+
+---
+
 ## Output Format
 - SQLAlchemy model definitions updated in `apps/api/models/`.
 - Pydantic schemas updated in `apps/api/schemas/`.
-- Newly generated Alembic migration file inside `apps/api/alembic/versions/`.
+- Newly generated Alembic migration file inside `apps/server/alembic/versions/`.
 - Updated `apps/api/models/__init__.py`.
 
 ---
