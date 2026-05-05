@@ -57,7 +57,7 @@ Do NOT use when:
      cd apps/server
      PYTHONPATH=..:.:$PYTHONPATH uv run alembic upgrade head
      ```
-   - **CRITICAL**: Strictly DO NOT manually update ANY files in `apps/server/alembic/versions/` (neither historical nor newly generated). Only follow the traditional way of updating the DB schema: update SQLAlchemy models, create migrations with Alembic, and apply them to the head.
+   - **CRITICAL**: Strictly DO NOT manually update ANY files in `apps/server/alembic/versions/` (neither historical nor newly generated). If you encounter a situation where the migration script fails or is inaccurate (e.g., PostgreSQL Enum duplication or "Target database is not up to date"), YOU MUST NOT attempt to patch the script file manually. Instead, explain the situation clearly to the user, including exactly what is failing and why, and provide the user with the necessary technical context to decide how to proceed (e.g., dropping the database and recreating migrations from scratch). Only follow the traditional way of updating the DB schema: update SQLAlchemy models, create migrations with Alembic, and apply them to the head.
 
 5. **Ensure Data Safety**
    - Do not drop tables or clear data unless explicitly requested by the user.
