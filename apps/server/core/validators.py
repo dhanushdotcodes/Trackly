@@ -13,6 +13,24 @@ def validate_name(name: str) -> bool:
     """Ensure name is not empty and has a reasonable length."""
     return 1 <= len(name.strip()) <= 255
 
+def validate_password(password: str) -> bool:
+    """
+    Validate password complexity:
+    - At least 8 characters
+    - At least one uppercase letter
+    - At least one lowercase letter
+    - At least one special character
+    """
+    if len(password) < 8:
+        return False
+    if not re.search(r'[A-Z]', password):
+        return False
+    if not re.search(r'[a-z]', password):
+        return False
+    if not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
+        return False
+    return True
+
 # --- Organization Validators ---
 
 def validate_org_name(name: str) -> bool:

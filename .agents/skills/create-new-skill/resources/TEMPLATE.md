@@ -22,6 +22,13 @@ Do NOT use when:
 
 ---
 
+## Constraints and Guidelines
+
+- example 1
+- example 2
+
+---
+
 ## Steps to Execute
 
 1. Step One

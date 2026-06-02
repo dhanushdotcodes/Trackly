@@ -35,7 +35,7 @@ GET /api/auth/verify-email — verify user's email address.
 
 GET /api/users/me — get current logged-in user profile.
 
-PUT /api/users/me — update user profile details.
+PATCH /api/users/me — update user profile details.
 
 ## Organisation Management
 ---
@@ -45,15 +45,15 @@ GET /api/orgs — list organisations current user is a member of.
 
 GET /api/orgs/:org_id — get details of a specific organisation.
 
-PUT /api/orgs/:org_id — update organisation details.
+PATCH /api/orgs/:org_id — update organisation details.
 
 DELETE /api/orgs/:org_id — delete the organisation.
 
-POST /api/orgs/:org_id/transfer-ownership — transfer ownership to another user.
+PATCH /api/orgs/:org_id/transfer-ownership — transfer ownership to another user.
 
 GET /api/orgs/:org_id/members — list all members of an organisation.
 
-PUT /api/orgs/:org_id/members/:user_id/role — update a member's role.
+PATCH /api/orgs/:org_id/members/:user_id/role — update a member's role.
 
 DELETE /api/orgs/:org_id/members/:user_id — remove a member from the organisation.
 
@@ -75,7 +75,7 @@ GET /api/orgs/:org_id/departments — list departments within an organisation.
 
 GET /api/orgs/:org_id/departments/:dept_id — get specific department details.
 
-PUT /api/orgs/:org_id/departments/:dept_id — update department details.
+PATCH /api/orgs/:org_id/departments/:dept_id — update department details.
 
 DELETE /api/orgs/:org_id/departments/:dept_id — delete a department.
 
@@ -83,7 +83,7 @@ GET /api/orgs/:org_id/departments/:dept_id/members — list members in a departm
 
 POST /api/orgs/:org_id/departments/:dept_id/members — add an org member to the department.
 
-PUT /api/orgs/:org_id/departments/:dept_id/members/:user_id/role — update department role.
+PATCH /api/orgs/:org_id/departments/:dept_id/members/:user_id/role — update department role.
 
 DELETE /api/orgs/:org_id/departments/:dept_id/members/:user_id — remove member from department.
 

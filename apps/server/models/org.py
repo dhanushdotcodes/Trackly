@@ -2,7 +2,6 @@ import uuid
 from datetime import datetime
 from typing import List, Optional, TYPE_CHECKING
 from sqlalchemy import String, DateTime, Text, ForeignKey, func, Enum, UniqueConstraint
-from sqlalchemy.dialects import postgresql
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base, OrgRole, DeptRole

@@ -25,6 +25,22 @@ Do NOT use when:
 
 ---
 
+## Constraints and Guidelines
+
+* SQLAlchemy 2.0+ (Declarative Mapping) MUST be used for ORM.
+* Alembic MUST be used for all database migrations.
+* You MUST NOT re-write the versions inside the `alembic/versions` directory.
+* Database operations MUST be asynchronous.
+* ALL models MUST inherit from `server.models.base.Base`.
+* ALL models MUST be imported in `apps/server/models/__init__.py` to be recognized by Alembic.
+* Service methods MUST use `async with session.begin():` for atomic operations.
+* NEVER call `.commit()` manually inside a service method.
+* ALWAYS prefer SQLAlchemy 2.0 style queries (using `select()`, `execute()`) over the legacy `Query` API.
+* NEVER perform destructive database actions without explicit confirmation.
+* Alembic commands MUST be run from the `apps/server` directory using `PYTHONPATH=..:.:$PYTHONPATH uv run alembic`.
+
+---
+
 ## Steps to Execute
 
 1. **Understand Database Architecture and Conventions**
@@ -68,7 +84,7 @@ Do NOT use when:
 
 ---
 
-## Most used commands
+## Build & Verify Commands
 
 - **Generate a new migration (Autogenerate)**: Compares the current models to the database and generates a migration script.
   ```bash

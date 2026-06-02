@@ -1,7 +1,7 @@
-# containerse app
-
-## Description
-This skill containerises an app for local development environment, It can handle creating images as well as creating a docker-compose file to run the app locally.
+---
+name: containerise-app
+description: This skill containerises an app for local development environment, It can handle creating images as well as creating a docker-compose file to run the app locally.
+---
 
 ## When to use
 - Trigger when the user asks to containerise an app for local development environment.
